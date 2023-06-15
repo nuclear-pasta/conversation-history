@@ -1,7 +1,16 @@
 Rails.application.routes.draw do
   devise_for :users
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  
+  root to: redirect('/projects')
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+  resources :projects, only: [:index, :show] do
+    resources :comments, only: [:create]
+    member do
+      put :submit
+      put :approve
+      put :reject
+      put :cancel
+    end
+  end
+  
 end

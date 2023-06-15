@@ -1,0 +1,8 @@
+<h1>Projects</h1>
+
+<% @projects.each do |project| %>
+  <div>
+    <h3><%= link_to project.name, project %></h3>
+    <p>State: <%= project.state %></p>
+  </div>
+<% end %>
