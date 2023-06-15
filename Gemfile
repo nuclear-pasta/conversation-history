@@ -60,6 +60,8 @@ group :development, :test do
   gem "factory_bot_rails"
   gem 'faker'
   gem 'byebug'
+  gem "shoulda-matchers", "~> 4.3.0"
+  gem 'rails-controller-testing'
 end
 
 group :development do

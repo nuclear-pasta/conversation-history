@@ -2,19 +2,39 @@ require 'rails_helper'
 
 RSpec.describe Project, type: :model do
   describe 'associations' do
-    it { should have_many(:comments) }
+    it { is_expected.to have_many(:comments) }
   end
 
   describe 'validations' do
-    it { should validate_presence_of(:name) }
-  end
+    it{ is_expected.to validate_presence_of(:name) }
+   end
 
-  describe 'state' do
-    it { should define_enum_for(:state).with_values(draft: 0, submitted: 1, approved: 2, rejected: 3, cancelled: 4) }
-    it { should allow_event(:submit).from(:draft).to(:submitted) }
-    it { should allow_event(:approve).from(:submitted).to(:approved) }
-    it { should allow_event(:reject).from(:submitted).to(:rejected) }
-    it { should allow_event(:cancel).from(:draft, :submitted, :approved, :rejected).to(:cancelled) }
-  end
+  describe 'state machine' do
+    let(:project) { FactoryBot.build(:project) } # Assuming you're using FactoryBot for object creation
 
+    it 'starts in the draft state' do
+      expect(project).to be_draft
+    end
+
+    it 'transitions to the submitted state when su    it{ is_expected.to validate_presence_of(:body) }
+    bmitted' do
+      expect { project.submit }.to change { project.state }.from('draft').to('submitted')
+    end
+
+    it 'transitions to the approved state when approved' do
+      project.submit
+      expect { project.approve }.to change { project.state }.from('submitted').to('approved')
+    end
+
+    it 'transitions to the rejected state when rejected' do
+      project.submit
+      expect { project.reject }.to change { project.state }.from('submitted').to('rejected')
+    end
+
+    it 'transitions to the cancelled state from any other state' do
+      project.submit
+      expect { project.cancel }.to change { project.state }.to('cancelled')
+    end
+  end
 end
+

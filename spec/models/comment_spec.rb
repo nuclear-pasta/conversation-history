@@ -1,7 +1,7 @@
 RSpec.describe Comment, type: :model do
   describe 'associations' do
-    it { should belong_to(:author).class_name('User') }
-    it { should belong_to(:subject).polymorphic }
+    it{ is_expected.to belong_to(:author) }
+    it{ is_expected.to belong_to(:subject) }
   end
 
   describe 'validations' do

@@ -9,7 +9,6 @@ module Projects
         redirect_to @project, notice: 'Comment created successfully.'
       else
         redirect_to @project, notice: 'Comment was not saved.'
-
       end
     end
 

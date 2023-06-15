@@ -40,10 +40,10 @@ RSpec.describe Projects::CommentsController, type: :controller do
         }.not_to change(Comment, :count)
       end
 
-      it 'renders the project show page with an error message' do
+      it 'redirects to the project show page with an error message' do
         post :create, params: invalid_params
-        expect(response).to render_template(:show)
-        expect(flash[:alert]).to eq('Unable to create the comment.')
+        expect(response).to redirect_to(project)
+        expect(flash[:notice]).to eq('Comment was not saved.')
       end
     end
   end
