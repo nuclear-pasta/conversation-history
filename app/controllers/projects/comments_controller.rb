@@ -5,7 +5,6 @@ module Projects
     def create
       @comment = @project.comments.build(comment_params)
       @comment.author = current_user
-
       if @comment.save
         redirect_to @project, notice: 'Comment created successfully.'
       else

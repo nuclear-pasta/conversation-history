@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   root to: redirect('/projects')
 
   resources :projects, only: [:index, :show] do
-    resources :comments, only: [:create]
+    resources :comments, only: [:create], module: :projects
     member do
       put :submit
       put :approve
@@ -12,5 +12,5 @@ Rails.application.routes.draw do
       put :cancel
     end
   end
-  
+
 end

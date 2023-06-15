@@ -2,36 +2,53 @@
 
 <p>State: <%= @project.state %></p>
 
+<hr>
+
 <h3>Comments</h3>
 <% @comments.each do |comment| %>
   <div>
     <p>Author: <%= comment.author.email %></p>
     <p><%= comment.content %></p>
   </div>
+  <hr>
 <% end %>
-
 
 <%= form_with(model: [@project, @project.comments.build], url: project_comments_path(@project)) do |form| %>
-    <div>
-      <%= form.label :content %>
-      <%= form.text_area :content %>
-    </div>
-  
-    <%= form.submit "Add Comment" %>
+  <div>
+    <%= form.label :content %>
+    <%= form.text_area :content %>
+  </div>
+
+  <%= form.submit "Add Comment" %>
+<% end %>
+
+<hr>
+
+<% @project.versions.each do |version| %>
+  <% if version.changeset.key?('state') %>
+    <p>State changed to <%= version.changeset['state'].last %> at <%= version.created_at %></p>
+    <% if version.whodunnit.present? %>
+      <p>Done by User ID <%= version.whodunnit %></p>
+    <% end %>
   <% end %>
-
-<% if can? :submit, @project %>
-  <%= link_to "Submit Project", submit_project_path(@project), method: :post %>
 <% end %>
 
-<% if can? :approve, @project %>
-  <%= link_to "Approve Project", approve_project_path(@project), method: :post %>
+<hr>
+
+<% if (can? :submit, @project) && (@project.can_submit?) %>
+  <%= button_to "Submit Project", submit_project_path(@project), method: :put %>
 <% end %>
 
-<% if can? :reject, @project %>
-  <%= link_to "Reject Project", reject_project_path(@project), method: :post %>
+<% if (can? :approve, @project) && (@project.can_approve?) %>
+  <%= button_to "Approve Project", approve_project_path(@project), method: :put %>
 <% end %>
 
-<% if can? :cancel, @project %>
-  <%= link_to "Cancel Project", cancel_project_path(@project), method: :post %>
+<% if (can? :reject, @project) && (@project.can_reject?) %>
+  <%= button_to "Reject Project", reject_project_path(@project), method: :put %>
 <% end %>
+
+<% if (can? :cancel, @project) && (@project.can_cancel?) %>
+  <%= button_to "Cancel Project", cancel_project_path(@project), method: :put %>
+<% end %>
+
+<hr>
