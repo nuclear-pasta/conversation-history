@@ -1,14 +1,15 @@
 class Project < ApplicationRecord
     has_many :comments, as: :subject, dependent: :destroy
     validates :name, :state, presence: true
-    
+    has_paper_trail :only => [:state]
+
     state_machine :state, initial: :draft do
         state :draft
         state :submitted
         state :approved
         state :rejected
         state :cancelled
-    
+
         event :submit do
           transition draft: :submitted
         end

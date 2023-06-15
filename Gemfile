@@ -44,6 +44,8 @@ gem "bootsnap", require: false
 gem 'state_machines'
 gem 'state_machines-activerecord'
 gem 'cancancan'
+gem 'paper_trail'
+
 # Use Sass to process CSS
 # gem "sassc-rails"
 
