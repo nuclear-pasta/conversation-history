@@ -43,6 +43,7 @@ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "bootsnap", require: false
 gem 'state_machines'
 gem 'state_machines-activerecord'
+gem 'cancancan'
 # Use Sass to process CSS
 # gem "sassc-rails"
 
